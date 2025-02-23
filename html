@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cancer Prediction</h1>
+        <input type="text" id="features" placeholder="Enter 30 features separated by commas">
+        <button onclick="predict()">Predict</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        async function predict() {
+            const input = document.getElementById('features').value.split(',').map(Number);
+            const response = await fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ features: input })
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = "Prediction: " + data.prediction;
+        }
+    </script>
+</body>
+</html>
